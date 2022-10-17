@@ -58,6 +58,12 @@ const MainPage = () => {
           socket.send(JSON.stringify({method: 'pong', id: session.id}));
           console.log('Отправлен pong серверу');
           break;
+        case 'disconnect':
+          console.log('Сервер инициировал отключение');
+          setSocketIsOnline(false);
+          socketState.close();
+          timerRef.current?.stop();
+          break;
         default:
           break;
       }
@@ -72,7 +78,7 @@ const MainPage = () => {
       }));
 
       setSocketIsOnline(false);
-
+      socketState.close();
       timerRef.current?.stop();
 
       console.log('Подключение разорвано пользователем');
