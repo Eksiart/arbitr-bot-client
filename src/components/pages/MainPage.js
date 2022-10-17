@@ -107,7 +107,7 @@ const MainPage = () => {
 
       <Stopwatch ref={timerRef}/>
 
-      <div style={{marginTop: '20px'}} className="svyazki">
+      <div style={{marginTop: '20px', marginBottom: '100px'}} className="svyazki">
         <SvyazkiList arrayOfSvayzok={arrayOfSvayzok}/>
       </div>
       <img className="bg-decoration" src={decoration} alt="background"/>
