@@ -55,8 +55,8 @@ const MainPage = () => {
           break;
         case 'ping':
           console.log('Получен ping от сервера');
-          // socket.send(JSON.stringify({method: 'pong', id: session.id}));
-          // console.log('Отправлен pong серверу');
+          socket.send(JSON.stringify({method: 'pong', id: session.id}));
+          console.log('Отправлен pong серверу');
           break;
         default:
           break;
