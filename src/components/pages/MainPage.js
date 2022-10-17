@@ -32,7 +32,7 @@ const MainPage = () => {
     setSocket(socket);
     socket.onopen = () => {
       console.log('Подключение установлено');
-      console.log(session);
+      console.log(`Номер сессии: ${session.id}`);
       setSocketIsOnline(true);
 
       timerRef.current?.start();

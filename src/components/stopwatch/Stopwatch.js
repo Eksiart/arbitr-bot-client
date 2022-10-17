@@ -22,6 +22,8 @@ const Stopwatch = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     start(){
       if (!running) {
+        setCurrentTimeMs(0);
+        setCurrentTimeSec(0);
         setRunning(true);
         setWatch(setInterval(() => pace(), 10));
       }
@@ -29,8 +31,8 @@ const Stopwatch = forwardRef((props, ref) => {
     stop(){
       setRunning(false);
       clearInterval(watch);
-      setCurrentTimeMs(0);
-      setCurrentTimeSec(0);
+      // setCurrentTimeMs(0);
+      // setCurrentTimeSec(0);
     },
     reset(){
       setCurrentTimeMs(0);
