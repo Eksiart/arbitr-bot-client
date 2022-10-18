@@ -28,7 +28,7 @@ const MainPage = () => {
   }, [session])
 
   const connectToServer = () => {
-    const socket = new WebSocket(`ws://localhost:5000/`); //`ws://62.113.104.10:5000/`
+    const socket = new WebSocket(`ws://62.113.104.10:5000/`); //`ws://62.113.104.10:5000/`
     setSocket(socket);
     socket.onopen = () => {
       console.log('Подключение установлено');
