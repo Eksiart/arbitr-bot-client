@@ -18,11 +18,11 @@ function App() {
                 <main>
                     <Suspense fallback={<Spinner/>}>
                         <Routes>
-                            <Route path='/:id' element={<MainPage/>}/>
+                            <Route path='/' element={<MainPage/>}/>
                             {/* <Route path='/comics' element={<ComicsPage/>}/>
                             <Route path='/comics/:id' element={<SinglePage Component={SingleComicLayout} dataType='comic'/>}/>
                             <Route path='/characters/:id' element={<SinglePage Component={SingleCharacterLayout} dataType='character'/>}/> */}
-                            <Route path='*' element={<Navigate to={`f${(+new Date()).toString(16)}`}/>}/>
+                            <Route path='*' element={<Navigate to='/'/>}/>
                             {/* <Route path='*' element={<Page404/>}/> */}
                         </Routes>
                     </Suspense>

@@ -9,6 +9,40 @@ import Paper from '@mui/material/Paper';
 
 const SvyazkiList = (props) => {
 
+  const renderTableElems = (arrayOfSvayzok) => {
+    return arrayOfSvayzok.map((row, index) => (
+      <TableRow
+        key={index}
+        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      >
+        <TableCell component="th" scope="row">
+          {row.buyType}
+        </TableCell>
+        <TableCell align="right">{row.crtyptoBuy.liquidity}</TableCell>
+        <TableCell align="right">{row.crtyptoBuy.coin}</TableCell>
+        <TableCell align="right">{row.crtyptoBuy.price}</TableCell>
+        <TableCell align="right">{row.bankFrom.nameRus}</TableCell>
+
+        <TableCell align="right">{row.spot.price}</TableCell>
+
+        <TableCell align="right">{row.sellType}</TableCell>
+        <TableCell align="right">{row.crtyptoSell.liquidity}</TableCell>
+        <TableCell align="right">{row.crtyptoSell.coin}</TableCell>
+        <TableCell align="right">{row.crtyptoSell.price}</TableCell>
+        <TableCell align="right">{row.bankTo.nameRus}</TableCell>
+        
+        <TableCell align="right">{row.spreadWithoutComission}%</TableCell>
+        <TableCell align="right">{row.profitWithoutComission}</TableCell>
+        
+        <TableCell align="right">{row.spread}%</TableCell>
+        <TableCell align="right">{row.profit}</TableCell>
+        
+      </TableRow>
+    ))
+  }
+
+  const tableElems = renderTableElems(props.arrayOfSvayzok);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -36,36 +70,7 @@ const SvyazkiList = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* {elems} */}
-          {props.arrayOfSvayzok.map((row, index) => (
-            <TableRow
-              key={index}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.buyType}
-              </TableCell>
-              <TableCell align="right">{row.crtyptoBuy.liquidity}</TableCell>
-              <TableCell align="right">{row.crtyptoBuy.coin}</TableCell>
-              <TableCell align="right">{row.crtyptoBuy.price}</TableCell>
-              <TableCell align="right">{row.bankFrom.nameRus}</TableCell>
-
-              <TableCell align="right">{row.spot.price}</TableCell>
-
-              <TableCell align="right">{row.sellType}</TableCell>
-              <TableCell align="right">{row.crtyptoSell.liquidity}</TableCell>
-              <TableCell align="right">{row.crtyptoSell.coin}</TableCell>
-              <TableCell align="right">{row.crtyptoSell.price}</TableCell>
-              <TableCell align="right">{row.bankTo.nameRus}</TableCell>
-              
-              <TableCell align="right">{row.spreadWithoutComission}%</TableCell>
-              <TableCell align="right">{row.profitWithoutComission}</TableCell>
-              
-              <TableCell align="right">{row.spread}%</TableCell>
-              <TableCell align="right">{row.profit}</TableCell>
-              
-            </TableRow>
-          ))}
+          {tableElems}
         </TableBody>
       </Table>
     </TableContainer>

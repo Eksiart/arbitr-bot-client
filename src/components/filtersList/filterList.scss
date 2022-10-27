@@ -1,0 +1,20 @@
+.filters {
+  &__label {
+    color: black;
+  }
+  &__stack {
+    min-width: 200px;
+    max-width: 200px;
+    &-text{
+      &-input{
+        min-width: 110px;
+        max-width: 110px;
+      }
+    }
+  }
+  &__error {
+    height: 10px;
+    color: red;
+    font-size: 10px;
+  }
+}
