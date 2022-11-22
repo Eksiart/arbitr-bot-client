@@ -1,11 +1,14 @@
 import React from 'react';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   tradeTypesOptions,
   banksOptions,
   coinsOptions
 } from '../constants/binance';
+
+const wsUrl = 'ws://62.113.104.10:5000/';
+const localhost = 'ws://localhost:5000/';
 
 const useWsService = () => {
 
@@ -16,6 +19,8 @@ const useWsService = () => {
   const [socket, setSocket] = useState(null);
   const [wsOnline, setWsOnline] = useState(false);
   const [arrayOfSvayzok, setSvayzki] = useState([]);
+  const [arrayOfFavoritesIds, setFavoritesIds] = useState([]);
+  const [arrayOfFavorites, setFavorites] = useState([]);
 
   const [filters, setFilters] = useState({
     tradeTypes: [...tradeTypesOptions],
@@ -54,11 +59,41 @@ const useWsService = () => {
     setSecLeftLastUpdate(0);
   }
 
+  const pushFavorite = (data) => {
+    if(!arrayOfFavoritesIds.includes(data.realId)){
+      setFavoritesIds([...arrayOfFavoritesIds, data.realId]);
+      setFavorites([...arrayOfFavorites, arrayOfSvayzok[data.id]]);
+      console.log('Связка сохранена в избранное');
+    }else{
+      console.log('Связка уже есть в избранном');
+    }
+  }
+
+  useEffect(() => {
+    sendFavorites();
+  }, [arrayOfFavoritesIds])
+
+  const deleteFavorite = (value) => {
+    setFavoritesIds(arrayOfFavoritesIds.filter(num => num !== value));
+    setFavorites(arrayOfFavorites.filter(obj => obj.id !== value));
+    console.log('Связка удалена из избранного');
+  }
+
+  const sendFavorites = () => {
+    if(wsOnline){
+      socket.send(JSON.stringify({
+        method: 'newFavorites',
+        id: session,
+        favorites: arrayOfFavoritesIds
+      }))
+      console.log('Избранное отправлено на сервер');
+    }
+  }
 
 
   const connectToServer = () => {
+    const createdWs = new WebSocket(localhost);
     // const createdWs = new WebSocket(wsUrl);
-    const createdWs = new WebSocket(wsUrl);
 
     createdWs.onopen = () => {
       console.log('Подключение установлено');
@@ -71,7 +106,8 @@ const useWsService = () => {
         username: 'test',
         method: 'connection',
         id: session,
-        filters
+        filters,
+        favorites: arrayOfFavoritesIds,
       }))
     };
   
@@ -82,6 +118,7 @@ const useWsService = () => {
         case 'send':
           console.log('Получено');
           setSvayzki(msg.data);
+          setFavorites(msg.favorites)
           resetStopwatch();
           break;
         
@@ -181,7 +218,10 @@ const useWsService = () => {
     stopwatch: {
       msLeftLastUpdate,
       secLeftLastUpdate
-    }
+    },
+    arrayOfFavorites,
+    pushFavorite,
+    deleteFavorite
   };
 }
 

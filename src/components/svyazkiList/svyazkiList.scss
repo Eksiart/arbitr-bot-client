@@ -1,0 +1,7 @@
+.svyazkiTable {
+  tr:nth-child(even) {background: rgba(0, 0, 0, 0.05)}
+  .MuiTableCell-root {
+    border-collapse: collapse;
+    border: 1px solid rgba(224, 224, 224, 1);
+  }
+}

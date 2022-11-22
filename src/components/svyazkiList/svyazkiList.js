@@ -1,79 +1,123 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const SvyazkiList = (props) => {
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import Box from '@mui/material/Box';
 
-  const renderTableElems = (arrayOfSvayzok) => {
-    return arrayOfSvayzok.map((row, index) => (
-      <TableRow
-        key={index}
-        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-      >
-        <TableCell component="th" scope="row">
-          {row.buyType}
-        </TableCell>
-        <TableCell align="right">{row.crtyptoBuy.liquidity}</TableCell>
-        <TableCell align="right">{row.crtyptoBuy.coin}</TableCell>
-        <TableCell align="right">{row.crtyptoBuy.price}</TableCell>
-        <TableCell align="right">{row.bankFrom.nameRus}</TableCell>
+import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
 
-        <TableCell align="right">{row.spot.price}</TableCell>
+import SvyazkaRow from './svyazkaRow';
+import SvyazkiTableHeader from './svyazkiListHeader';
 
-        <TableCell align="right">{row.sellType}</TableCell>
-        <TableCell align="right">{row.crtyptoSell.liquidity}</TableCell>
-        <TableCell align="right">{row.crtyptoSell.coin}</TableCell>
-        <TableCell align="right">{row.crtyptoSell.price}</TableCell>
-        <TableCell align="right">{row.bankTo.nameRus}</TableCell>
-        
-        <TableCell align="right">{row.spreadWithoutComission}%</TableCell>
-        <TableCell align="right">{row.profitWithoutComission}</TableCell>
-        
-        <TableCell align="right">{row.spread}%</TableCell>
-        <TableCell align="right">{row.profit}</TableCell>
-        
-      </TableRow>
+import { useTheme } from '@mui/material/styles';
+
+import './svyazkiList.scss'
+
+const SvyazkiList = ({data, onRowClick, height = null}) => {
+
+  const [page, setPage] = React.useState(0);
+
+  const handleChangePage = (event, value) => {
+    setPage(value);
+  };
+
+  const renderTableElems = (arrayOfSvayzok, page) => {
+    let partOfArray = arrayOfSvayzok.slice(page, page + 10);
+    return partOfArray.map((data, index) => (
+      <SvyazkaRow onRowClick={onRowClick} key={'svyzka' + (+index + page * 10)} data={data} index={index + page * 10}/>
     ))
   }
 
-  const tableElems = renderTableElems(props.arrayOfSvayzok);
+  return (
+    <>
+      <TableContainer sx={height} component={Paper}>
+        <Table size='small' className='svyazkiTable' sx={{ minWidth: 650 }} aria-label="simple table">
+          <SvyazkiTableHeader/>
+          <TableBody>
+            {renderTableElems(data, page)}
+          </TableBody>
+          {height ? null :
+            <TableFooter>
+            <TableRow>
+              <TablePagination
+                count={data.length}
+                rowsPerPage={10}
+                page={page}
+                onPageChange={handleChangePage}
+                rowsPerPageOptions={[]}
+                ActionsComponent={TablePaginationActions}
+                labelDisplayedRows={({ from, to, count }) => { return `${from}–${to} из ${count}` }}
+              />
+            </TableRow>
+          </TableFooter>
+          }
+        </Table>
+      </TableContainer>
+    </>
+  );
+}
+
+function TablePaginationActions(props) {
+  const theme = useTheme();
+  const { count, page, rowsPerPage, onPageChange } = props;
+
+  const handleFirstPageButtonClick = (event) => {
+    onPageChange(event, 0);
+  };
+
+  const handleBackButtonClick = (event) => {
+    onPageChange(event, page - 1);
+  };
+
+  const handleNextButtonClick = (event) => {
+    onPageChange(event, page + 1);
+  };
+
+  const handleLastPageButtonClick = (event) => {
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+  };
 
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>T/M</TableCell>
-            <TableCell>Ликвид.</TableCell>
-            <TableCell align="right">Монета покупки</TableCell>
-            <TableCell align="right">Курс покупки</TableCell>
-            <TableCell align="right">Банк покупки</TableCell>
-
-            <TableCell align="right">Спот</TableCell>
-
-            <TableCell align="right">T/M</TableCell>
-            <TableCell align="right">Ликвид.</TableCell>
-            <TableCell align="right">Монета продажи</TableCell>
-            <TableCell align="right">Курс продажи</TableCell>
-            <TableCell align="right">Банк продажи</TableCell>
-
-            <TableCell align="right">Сперд (б.к.)</TableCell>
-            <TableCell align="right">Профит (б.к.)</TableCell>
-            
-            <TableCell align="right">Сперд</TableCell>
-            <TableCell align="right">Профит</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {tableElems}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
+      <IconButton
+        onClick={handleFirstPageButtonClick}
+        disabled={page === 0}
+        aria-label="Первая страница"
+      >
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+      </IconButton>
+      <IconButton
+        onClick={handleBackButtonClick}
+        disabled={page === 0}
+        aria-label="Предыдущая страница"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+      </IconButton>
+      <IconButton
+        onClick={handleNextButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="Следующая страница"
+      >
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+      </IconButton>
+      <IconButton
+        onClick={handleLastPageButtonClick}
+        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+        aria-label="Последняя страница"
+      >
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+      </IconButton>
+    </Box>
   );
 }
 

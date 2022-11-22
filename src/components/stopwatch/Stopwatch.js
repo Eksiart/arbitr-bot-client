@@ -15,7 +15,7 @@ const StopwatchDisplay = (props) => {
 
   return (
     <div style={{marginTop: '20px', fontWeight: 'bold'}}>
-      <span>Секунд прошло с момента получения информации от сервера:</span>
+      <span>Прошло с момента получения информации от сервера:</span>
       <div className={'stopwatch__display'}>
         <span>
           {formatTime(props.currentTimeSec)}:
