@@ -32,10 +32,12 @@ const SvyazkiList = ({data, onRowClick, height = null}) => {
   };
 
   const renderTableElems = (arrayOfSvayzok, page) => {
-    let partOfArray = arrayOfSvayzok.slice(page, page + 10);
-    return partOfArray.map((data, index) => (
-      <SvyazkaRow onRowClick={onRowClick} key={'svyzka' + (+index + page * 10)} data={data} index={index + page * 10}/>
-    ))
+    if(arrayOfSvayzok[0]?.buyType){
+      let partOfArray = arrayOfSvayzok.slice(page, page + 10);
+      return partOfArray.map((data, index) => (
+        <SvyazkaRow onRowClick={onRowClick} key={'svyazka' + (+index + page * 10)} data={data} index={index + page * 10}/>
+      ))
+    }
   }
 
   return (
@@ -46,7 +48,7 @@ const SvyazkiList = ({data, onRowClick, height = null}) => {
           <TableBody>
             {renderTableElems(data, page)}
           </TableBody>
-          {height ? null :
+          {height || !data ? null :
             <TableFooter>
             <TableRow>
               <TablePagination

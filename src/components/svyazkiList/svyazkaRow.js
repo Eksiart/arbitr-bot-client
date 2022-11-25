@@ -8,7 +8,7 @@ const SvyazkaRow = ({index, data, onRowClick}) => {
     <TableRow
       key={index}
       hover
-      onClick={() => onRowClick({id: index, realId: data.id})}
+      onDoubleClick={() => onRowClick({id: index, realId: data.id})}
       sx={{
         '&.MuiTableRow-root:hover':{
           backgroundColor: 'rgba(201, 210, 25, 0.144)'
@@ -16,6 +16,7 @@ const SvyazkaRow = ({index, data, onRowClick}) => {
       }}
     >
       <TableCell style={data.buyType === 'MAKER' ? {color: 'rgb(246, 70, 93)'} : {color: 'rgb(14, 203, 129)'}} align="center" component="th" scope="row">{data.buyType}</TableCell>
+
       <TableCell align="center">{data.crtyptoBuy.coin}</TableCell>
       <TableCell align="center">{data.crtyptoBuy.price}</TableCell>
       <TableCell align="center">{data.crtyptoBuy.liquidity}</TableCell>

@@ -7,23 +7,32 @@ class SvyazkiState {
 
   constructor() {
     makeAutoObservable(this)
+    const favoritesIdsFromLocalStorage = localStorage.getItem('favorites')
+    if(favoritesIdsFromLocalStorage){
+      this.arrayOfFavoritesIds = JSON.parse(favoritesIdsFromLocalStorage)
+    }
   }
 
-  deleteFavoriteIds(value){
+  deleteFavoriteIds = (value) => {
     this.arrayOfFavoritesIds = this.arrayOfFavoritesIds.filter(num => num !== value)
+    localStorage.setItem('favorites', JSON.stringify(this.arrayOfFavoritesIds))
   }
-  deleteFavorite(value){
+  deleteFavorite = (value) => {
     this.arrayOfFavorites = this.arrayOfFavorites.filter(obj => obj.id !== value)
   }
 
-  setFavoritesIds(data){
-    this.arrayOfFavoritesIds = [...this.arrayOfFavoritesIds, data.realId]
+  pushFavoritesIds = (data) => {
+    this.arrayOfFavoritesIds.push(data)
+    localStorage.setItem('favorites', JSON.stringify(this.arrayOfFavoritesIds))
   }
-  setFavorites(data){
-      this.arrayOfFavorites = [...this.arrayOfFavorites, this.arrayOfSvayzok[data.id]]
+  pushFavorites = (data) => {
+      this.arrayOfFavorites.push(this.arrayOfSvayzok[data])
   }
 
-  setSvayzki(data){
+  setFavorites = (data) => {
+    this.arrayOfFavorites = data;
+  }
+  setSvayzki = (data) => {
     this.arrayOfSvayzok = data;
   }
 }

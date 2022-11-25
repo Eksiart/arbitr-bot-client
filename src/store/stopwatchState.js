@@ -1,14 +1,19 @@
 import {makeAutoObservable} from "mobx";
 
 class StopwatchState {
-    lastUpdateInterval = null
+    lastUpdate = 0
+    run = false
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    setTimeUpdate(time) {
-        this.lastUpdateInterval = time
+    setLastUpdate = () => {
+        this.lastUpdate = new Date().getTime()
+    }
+
+    setRun = (value) => {
+        this.run = value
     }
 }
 
