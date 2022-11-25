@@ -8,7 +8,7 @@ const AppHeader = () => {
         <header className="app__header">
             <h1 className="app__title">
                 <Link to="/">
-                    <span>TERAN P2P LAB</span>
+                    <span>TERRAN P2P LAB</span>
                 </Link>
             </h1>
             <nav className="app__menu">
