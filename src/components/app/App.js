@@ -3,31 +3,36 @@ import React from 'react';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-
 import AppHeader from "../appHeader/AppHeader";
-import Spinner from '../spinner/Spinner';
+import LinearProgress from '@mui/material/LinearProgress';
+
+
+import Container from '@mui/material/Container';
+
+import './App.scss';
 
 // const Page404 = lazy(() => import('../pages/404'));
 const MainPage = lazy(() => import('../pages/MainPage'));
+const RatesPage = lazy(() => import('../pages/RatesPage'));
+const OffersPage = lazy(() => import('../pages/OffersPage'));
 
 function App() {
     return (
         <Router>
-            <div className="app">
+            <Container disableGutters={true} maxWidth="false">
                 <AppHeader/>
-                <main>
-                    <Suspense fallback={<Spinner/>}>
-                        <Routes>
-                            <Route path='/' element={<MainPage/>}/>
-                            {/* <Route path='/comics' element={<ComicsPage/>}/>
-                            <Route path='/comics/:id' element={<SinglePage Component={SingleComicLayout} dataType='comic'/>}/>
-                            <Route path='/characters/:id' element={<SinglePage Component={SingleCharacterLayout} dataType='character'/>}/> */}
-                            <Route path='*' element={<Navigate to='/'/>}/>
-                            {/* <Route path='*' element={<Page404/>}/> */}
-                        </Routes>
-                    </Suspense>
-                </main>
-            </div>
+            </Container>
+            <Suspense fallback={<LinearProgress/>}>
+                <div className='app__body'>
+                    <Routes>
+                        {/* <Route path='/' element={<MainPage/>}/> */}
+                        <Route path='/p2p/:market' element={<MainPage/>}/>
+                        <Route path='/rates' element={<RatesPage/>}/>
+                        <Route path='/market' element={<OffersPage/>}/>
+                        <Route path='*' element={<Navigate to='/p2p/binance'/>}/>
+                    </Routes>
+                </div>
+            </Suspense>
         </Router>
     );
 }

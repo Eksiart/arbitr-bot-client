@@ -7,7 +7,7 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 
 import {observer} from "mobx-react-lite";
-import filtersState from '../../store/filtersState';
+import filtersState from '../../store/filtersStateBinance';
 
 import {
   tradeTypesOptions,
@@ -25,8 +25,12 @@ const FiltersMenu = observer((props) => {
   const changeCoins = filtersState.changeCoins;
   const changeBanks = filtersState.changeBanks;
   const changeBudget = filtersState.changeBudget;
+  const changeBudgetCoin = filtersState.changeBudgetCoin;
   const changeLiquidity = filtersState.changeLiquidity;
   const changeActiveCoins = filtersState.changeActiveCoins;
+  const onSplitChange = filtersState.changeSplit;
+  
+  const isSplit = filtersState.filters[coin].split;
 
   const renderChipsTradeTypes = () => {
     const thisFilters = currentFilters.tradeTypes;
@@ -39,11 +43,45 @@ const FiltersMenu = observer((props) => {
   }
   const renderChipsCoins = () => {
     const thisFilters = currentFilters.coins;
+
     return coinsOptions.map((elem) => {
-      const elemUsed = thisFilters.includes(elem);
+      // const elemUsed = thisFilters.includes(elem);
+      const elemUsed =  thisFilters[elem].find;
       const variant = elemUsed ? "filled" : "outlined";
       const color = elemUsed ? "primary" : "default";
-      return (<Chip disabled={!isActive} onClick={() => changeCoins(coin, elem)} key={'filterElem' + elem} label={elem} variant={variant} color={color}/>)
+      return (
+        <Stack spacing={2} key={'filterElem' + elem}>
+          <TextField
+            disabled={!elemUsed || !isActive}
+            error={currentFilters.coins[elem].budgetBuy < 1000 || currentFilters.coins[elem].budgetBuy === ''}
+            name={elem}
+            value={currentFilters.coins[elem].budgetBuy} 
+            onChange={onBudgetChangeCoinBuy}
+            type="number" 
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} 
+            size="small" 
+            id="outlined-basic" 
+            label="Покупка" 
+            variant="outlined"
+            sx={{maxWidth: '100px'}}
+          />
+          <Chip disabled={!isActive} onClick={() => changeCoins(coin, elem)} label={elem} variant={variant} color={color}/>
+          <TextField
+            disabled={!elemUsed || !isActive || !isSplit}
+            error={currentFilters.coins[elem].budgetSell < 1000 || currentFilters.coins[elem].budgetSell === ''}
+            name={elem}
+            value={currentFilters.coins[elem].budgetSell} 
+            onChange={onBudgetChangeCoinSell}
+            type="number" 
+            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} 
+            size="small" 
+            id="outlined-basic" 
+            label="Продажа" 
+            variant="outlined"
+            sx={{maxWidth: '100px'}}
+          />
+        </Stack>
+      )
     })
   }
   const renderChipsBank = (buy) => {
@@ -56,6 +94,12 @@ const FiltersMenu = observer((props) => {
     })
   }
 
+  const onBudgetChangeCoinBuy = (event) => {
+    changeBudgetCoin(coin, event.target.value, event.target.name, true);
+  }
+  const onBudgetChangeCoinSell = (event) => {
+    changeBudgetCoin(coin, event.target.value, event.target.name, false);
+  }
   const onBudgetChange = (event) => {
     changeBudget(coin, event.target.value);
   }
@@ -89,7 +133,7 @@ const FiltersMenu = observer((props) => {
             <Box>
               <TextField
                 disabled={!isActive}
-                error={currentFilters.budget < 500 || currentFilters.budget === ''}
+                error={currentFilters.budget < 1000 || currentFilters.budget === ''}
                 name='budget'
                 value={currentFilters.budget} 
                 onChange={onBudgetChange} 
@@ -97,13 +141,13 @@ const FiltersMenu = observer((props) => {
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} 
                 size="small" 
                 id="outlined-basic" 
-                label="Бюджет" 
-                variant="outlined" 
+                label="Бюджет избранного" 
+                variant="outlined"
               />
             </Box>
             <Box>
               <TextField
-                disabled={!isActive}
+                disabled={true}
                 error={currentFilters.liquidityBuy < 0 || currentFilters.liquidityBuy === ''}
                 name='buy'
                 value={currentFilters.liquidityBuy} 
@@ -118,7 +162,7 @@ const FiltersMenu = observer((props) => {
             </Box>
             <Box>
               <TextField
-                disabled={!isActive}
+                disabled={true}
                 error={currentFilters.liquiditySell < 0 || currentFilters.liquiditySell === ''}
                 name='sell'
                 value={currentFilters.liquiditySell} 
@@ -153,8 +197,15 @@ const FiltersMenu = observer((props) => {
         <Divider sx={{marginTop: '10px', marginBottom: '10px'}}/>
 
         <Box>
-          <Stack direction="row" spacing={2}>
-            <Box sx={{paddingTop: '5px'}}>Монеты:</Box>
+          <span>Сплит:</span>
+          <Switch checked={isSplit} onChange={() => onSplitChange(coin)}label="Сплит" />
+
+          <Stack sx={{marginTop: '10px'}} direction="row" spacing={2}>
+            <Stack spacing={1}>
+              <Box sx={{paddingTop: '10px'}}>Покупать по:</Box>
+              <Box sx={{paddingTop: '25px'}}>Монеты:</Box>
+              <Box sx={{paddingTop: '25px'}}>Продавать по:</Box>
+            </Stack>
             <Stack
               direction="row" 
               spacing={1}
@@ -193,9 +244,6 @@ const FiltersMenu = observer((props) => {
             </Stack>
           </Stack>
         </Box>
-
-        <Divider sx={{marginTop: '10px', marginBottom: '10px'}}/>
-
       </Box>
     </div>
   );

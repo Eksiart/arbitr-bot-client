@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,14 +16,14 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 
-import SvyazkaRow from './svyazkaRow';
-import SvyazkiTableHeader from './svyazkiListHeader';
+import SvyazkaRow from './svyazkaRow/svyazkaRow';
+import SvyazkiTableHeader from './header/svyazkiListHeader';
 
 import { useTheme } from '@mui/material/styles';
 
 import './svyazkiList.scss'
 
-const SvyazkiList = ({data, onRowClick, height = null}) => {
+const SvyazkiList = ({data, onRowClick, height = null, keyName}) => {
 
   const [page, setPage] = React.useState(0);
 
@@ -35,7 +35,7 @@ const SvyazkiList = ({data, onRowClick, height = null}) => {
     if(arrayOfSvayzok[0]?.buyType){
       let partOfArray = arrayOfSvayzok.slice(page, page + 10);
       return partOfArray.map((data, index) => (
-        <SvyazkaRow onRowClick={onRowClick} key={'svyazka' + (+index + page * 10)} data={data} index={index + page * 10}/>
+        <SvyazkaRow onRowClick={onRowClick} key={keyName + 'svyazka' + (+index + page * 10)} data={data} index={index + page * 10}/>
       ))
     }
   }

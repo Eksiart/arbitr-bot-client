@@ -29,6 +29,11 @@ class SvyazkiState {
       this.arrayOfFavorites.push(this.arrayOfSvayzok[data])
   }
 
+  setFavoritesIds = (data) => {
+    this.arrayOfFavoritesIds = data;
+    localStorage.setItem('favorites', JSON.stringify(this.arrayOfFavoritesIds))
+  }
+
   setFavorites = (data) => {
     this.arrayOfFavorites = data;
   }

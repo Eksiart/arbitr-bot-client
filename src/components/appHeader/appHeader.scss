@@ -1,32 +1,50 @@
-@import '../../style/variables.scss';
+.header {
+    background-color: white;
+    box-shadow: 0 4px 24px rgb(88 102 126 / 8%), 0 1px 2px rgb(88 102 126 / 12%);
 
-.app {
-    &__header {
-        
+    &__top {
+        padding: 5px 50px 5px 50px;
+        display: flex;
+        line-height: 35px;
         display: flex;
         justify-content: space-between;
-    }
-    &__title {
-        //font-weight: bold;
-        font-size: 28px;
-        line-height: 37px;
         span {
             color: 'inherit';
         }
-    }
-    &__menu {
-        ul {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            font-size: 16px;
-            line-height: 46px;
-            li {
-                margin: 0 8px;
-                a:hover {
-                    color: $main-color;
-                }
-            }
+        &-title{
+            font-size: 1.5em;
+        }
+        &-profile{
+            font-weight: 600;
+            font-size: 0.9em;
         }
     }
+    &__middle {
+        padding-left: 90px;
+        display: flex;
+
+        span {
+            margin-right: 20px;
+            font-size: 1em;
+            line-height: 40px;
+        }
+    }
+    &__bottom {
+        background-color: honeydew;
+        // color: brown
+        padding-left: 90px;
+        display: flex;
+
+        span {
+            margin-right: 20px;
+            font-size: 0.9em;
+            line-height: 40px;
+        }
+    }
+}
+
+.active {
+    color: #1565c0;
+    font-weight: 600;
+    text-decoration: underline;
 }

@@ -1,49 +1,13 @@
+// eslint-disable-next-line
 import React from 'react';
 import { useEffect } from "react";
 import { autorun } from "mobx";
 
-const wsUrl = 'ws://62.113.104.10:5000/';
-// const localhost = 'ws://localhost:5000/';
+// const wsUrl = 'ws://62.113.104.10:5000/';
+const wsUrl = 'ws://localhost:5000/ws';
 let socket = null;
 
 const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) => {
-
-  useEffect(() => {
-    autorun(() => {
-      sendFavorites();
-    });
-     // eslint-disable-next-line
-  }, [svyazkiState.arrayOfFavoritesIds]);
-
-  useEffect(() => {
-    autorun(() => {
-      sendFilters(filtersState.filtersForWs);
-    });
-     // eslint-disable-next-line
-  }, [filtersState.filtersForWs]);
-
-  const sendFavorites = () => {
-    if(globalState.wsOnline){
-      socket.send(JSON.stringify({
-        method: 'newFavorites',
-        id: globalState.session,
-        favorites: svyazkiState.arrayOfFavoritesIds
-      }))
-      console.log('Избранное отправлено на сервер');
-    }
-  }
-
-  const sendFilters = (newFilters) => {
-    if(socket){
-      socket.send(JSON.stringify({
-        method: 'newFilters',
-        id: globalState.session,
-        filters: newFilters
-      }))
-      console.log('Фильтры отправлены на сервер');
-    }
-  }
-
 
   const connectToServer = () => {
     // socket = new WebSocket(localhost);
@@ -61,6 +25,8 @@ const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) =
       socket.send(JSON.stringify({
         username: 'test',
         method: 'connection',
+        password: globalState.password,
+        type: 'binance',
         id: globalState.session,
         filters: filtersState.filtersForWs,
         favorites: svyazkiState.arrayOfFavoritesIds,
@@ -82,6 +48,7 @@ const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) =
           console.log('Сервер инициировал отключение');
           disconnect();
           console.log('Подключение разорвано сервером');
+          console.log('Причина: ' + msg.message);
           break;
 
         case 'filtersApplied':

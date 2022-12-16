@@ -1,12 +1,19 @@
 import * as React from 'react';
+import axios from 'axios';
+import { useEffect } from "react";
+import { autorun } from "mobx";
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+// import Switch from '@mui/material/Switch';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 
 import {observer} from "mobx-react-lite";
-import filtersState from '../../store/filtersState';
+import filtersState from '../../store/filtersStateBinance';
+import globalState from '../../store/globalState';
 
 import FiltersMenu from './FiltersMenu';
 
@@ -51,6 +58,28 @@ function a11yProps(index) {
 const Filters = observer(() => {
   const [activeCoin, setActiveCoin] = React.useState('USDT');
 
+  const sendFilters = () => {
+    console.log('Отправляем фильтры');
+
+    if(filtersState.canSendHTTP){
+      axios.post('http://localhost:5000/options/binance/filters', {
+        filters: filtersState.filtersForWs,
+        session: globalState.session,
+        password: globalState.password,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function() {
+        filtersState.sendFiltersHTTP();
+      })
+    }
+  }
+
+
   const changeTab = (event, newValue) => {
     setActiveCoin(newValue);
   };
@@ -63,17 +92,51 @@ const Filters = observer(() => {
   const tabs = renderTabs();
 
   return (
-    <Box sx={{ marginTop: '20px', width: '100%' }}>
-      <Button 
-        disabled={!filtersState.canSend}
-        size="medium" 
-        variant="contained" 
-        color="success"
-        sx={{marginBottom: '10px', position: 'realtive', right: 0}}
-        onClick={filtersState.sendFilters}
+    <Box sx={{ 
+      marginTop: '20px', 
+      width: '100%',
+      borderRadius: '8px',
+      boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)',
+      bgcolor: '#fff',
+    }}>
+      <Stack
+        direction="row"
+        // justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+        sx={{
+          paddingTop: '10px',
+          paddingBottom: '10px',
+          paddingLeft: '10px'
+        }}
       >
-        Сохранить фильтры
-      </Button>
+        <Button 
+          disabled={!filtersState.canSendHTTP}
+          size="medium" 
+          variant="contained" 
+          onClick={() => sendFilters()}
+        >
+          Отправить фильтры
+        </Button>
+
+        <Button 
+          disabled={!filtersState.canSend}
+          size="medium" 
+          variant="contained" 
+          color="success"
+          onClick={filtersState.sendFilters}
+        >
+          Сохранить фильтры
+        </Button>
+
+        {/* <span style={{left: '50%'}}>
+          <span>Мерчант аккаунт (для подсчета комиссии):</span>
+          <Switch value={filtersState.filters.merchant} onClick={filtersState.changeMerchant} label="Искать" />
+        </span> */}
+
+      </Stack>
+
+      <Divider/>
 
       <Box sx={{ bgcolor: '#fff' }}>
         <AntTabs value={activeCoin} onChange={changeTab}>

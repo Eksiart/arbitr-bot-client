@@ -4,8 +4,7 @@ import { Helmet } from "react-helmet";
 import ButtonsMenu from '../buttonsMenu/buttonsMenu';
 import Stopwatch from '../stopwatch/Stopwatch';
 import Svyazki from '../svyazkiList/svyazki';
-
-import decoration from '../../resources/img/bg.png';
+import Filters from '../filters/filters';
 
 const MainPage = () => {
   return(
@@ -13,12 +12,13 @@ const MainPage = () => {
       <Helmet>
         <meta
           name="description"
-          content="Terano P2P lab"
+          content="Внутрибиржевой арбитраж"
           />
-        <title>Teran P2P</title>
+        <title>Внутрибиржевой арбитраж</title>
       </Helmet>
 
       <ButtonsMenu/>
+      <Filters/>
 
       <div>
         <Stopwatch/>
@@ -26,7 +26,6 @@ const MainPage = () => {
 
       <Svyazki/>
       
-      <img className="bg-decoration" src={decoration} alt="background"/>
     </>
   )
 }

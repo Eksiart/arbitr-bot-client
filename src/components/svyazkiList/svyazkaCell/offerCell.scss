@@ -1,0 +1,21 @@
+@import '../../../style/variables.scss';
+
+.myLink {
+  // color: rgb(40, 92, 147);
+  // color: #5468ff;
+  font-weight: 600;
+  font-size: 16;
+}
+.myLink:hover {
+  cursor:pointer;
+  text-decoration: underline;
+}
+
+.success {
+  color: $success-color;
+}
+
+.error {
+  color: $maker-color
+}
+

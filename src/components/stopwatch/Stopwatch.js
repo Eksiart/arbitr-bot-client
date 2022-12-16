@@ -5,9 +5,17 @@ import { useState, useEffect } from "react";
 import stopwatchState from '../../store/stopwatchState';
 
 const StopwatchDisplay = observer(() => {
-  const [currentMs, setCurrentMs] = useState(0);
-  const [currentSec, setCurrnetSec] = useState(0);
+  const [time, setTime] = useState(0);
   const [myInteraval, setMyInterval] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      if(myInteraval){
+        clearInterval(myInteraval);
+      }
+    }
+    // eslint-disable-next-line
+}, [])
 
   useEffect(() => {
     resetStopwatch();
@@ -23,17 +31,11 @@ const StopwatchDisplay = observer(() => {
   const startStopwatch = () => {
     resetStopwatch();
 
-    const interval = setInterval(() => {
-      setCurrentMs((currentMs) => {
-        if(currentMs >= 1000){
-          setCurrnetSec(currentSec => currentSec + 1);
-          return 0;
-        }
-        return currentMs + 10
-      });
+    const myInteraval = setInterval(() => {
+      setTime((time) => time + 10);
     }, 10);
 
-    setMyInterval(interval)
+    setMyInterval(myInteraval);
   }
 
   const stopStopwatch = () => {
@@ -41,30 +43,18 @@ const StopwatchDisplay = observer(() => {
   }
 
   const resetStopwatch = () => {
-    setCurrentMs(0);
-    setCurrnetSec(0);
+    setTime(0);
   }
-
-  const formatTime = (val, ...rest) => {
-    let value = val.toString();
-    if (value.length < 2) {
-      value = '0' + value;
-    }
-    if (rest[0] === 'ms' && value.length < 3) {
-      value = '0' + value;
-    }
-    return value;
-  };
 
   return (
     <div style={{marginTop: '20px', fontWeight: 'bold'}}>
-      <span>Прошло с момента получения информации от сервера:</span>
-      <div className={'stopwatch__display'}>
-        <span>
-          {formatTime(currentSec)}:
-          {formatTime(currentMs, 'ms')}
-        </span>
-      </div>
+      <span>Прошло с момента получения информации от сервера: </span>
+      <span className="digits">
+        {("0" + Math.floor((time / 1000) % 60)).slice(-2)}.
+      </span>
+      <span className="digits mili-sec">
+        {("0" + ((time / 10) % 100)).slice(-2)}
+      </span>
     </div>
   );
 })
