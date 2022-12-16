@@ -124,7 +124,6 @@ class FiltersStateBinance {
 
     checkCanSend = () => {
       let canSendTemp = true;
-      if(JSON.stringify(this.filters) === this.activeFiltersStr) canSendTemp = false;
     
       if(canSendTemp){
         for(const [, firstCoinValue] of Object.entries(this.filters)){
@@ -147,7 +146,6 @@ class FiltersStateBinance {
             break;
           }
   
-          // console.log(firstCoinValue);
           for(const [, secondCoinValue] of Object.entries(firstCoinValue.coins)){
             if (secondCoinValue.budget < 1000 || secondCoinValue.budget === '') {
               canSendTemp = false;
