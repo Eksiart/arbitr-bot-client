@@ -1,10 +1,6 @@
 // eslint-disable-next-line
 import React from 'react';
-import { useEffect } from "react";
-import { autorun } from "mobx";
-
-// const wsUrl = 'ws://62.113.104.10:5000/';
-const wsUrl = 'ws://localhost:5000/ws';
+const wsUrl = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_WS_URL : process.env.REACT_APP_PROD_WS_URL;
 let socket = null;
 
 const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) => {

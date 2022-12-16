@@ -1,19 +1,17 @@
 import * as React from 'react';
-import axios from 'axios';
-import { useEffect } from "react";
-import { autorun } from "mobx";
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-// import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 
 import {observer} from "mobx-react-lite";
 import filtersState from '../../store/filtersStateBinance';
 import globalState from '../../store/globalState';
+
+import useRequestsService from '../../services/RequestsService';
 
 import FiltersMenu from './FiltersMenu';
 
@@ -58,24 +56,14 @@ function a11yProps(index) {
 const Filters = observer(() => {
   const [activeCoin, setActiveCoin] = React.useState('USDT');
 
+  const {sendFiltersS} = useRequestsService(globalState);
+
   const sendFilters = () => {
     console.log('Отправляем фильтры');
 
     if(filtersState.canSendHTTP){
-      axios.post('http://localhost:5000/options/binance/filters', {
-        filters: filtersState.filtersForWs,
-        session: globalState.session,
-        password: globalState.password,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .finally(function() {
-        filtersState.sendFiltersHTTP();
-      })
+      sendFiltersS(filtersState.filtersForWs)
+        .then(filtersState.sendFiltersHTTP());
     }
   }
 

@@ -127,7 +127,7 @@ class FiltersStateBinance {
       if(JSON.stringify(this.filters) === this.activeFiltersStr) canSendTemp = false;
     
       if(canSendTemp){
-        for(const [firstCoinKey, firstCoinValue] of Object.entries(this.filters)){
+        for(const [, firstCoinValue] of Object.entries(this.filters)){
           if(firstCoinValue.budgetBuy < 1000 || firstCoinValue.budgetBUY === '') {
             canSendTemp = false;
             break;
@@ -148,7 +148,7 @@ class FiltersStateBinance {
           }
   
           // console.log(firstCoinValue);
-          for(const [secondCoinKey, secondCoinValue] of Object.entries(firstCoinValue.coins)){
+          for(const [, secondCoinValue] of Object.entries(firstCoinValue.coins)){
             if (secondCoinValue.budget < 1000 || secondCoinValue.budget === '') {
               canSendTemp = false;
               break;

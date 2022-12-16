@@ -1,29 +1,16 @@
 import React from 'react';
-import { useState } from 'react';
 
 import SvyazkiList from '../svyazkiList/svyazkiList';
 
 import {observer} from "mobx-react-lite";
 import svyazkiState from '../../store/svyazkiState';
 import globalState from '../../store/globalState';
-import axios from 'axios';
+
+import useRequestsService from '../../services/RequestsService';
 
 const Svyazki = observer(() => {
-  function sendFavoritesIds(arr){
-    console.log('Отправляем избранное');
 
-    axios.post('http://localhost:5000/options/binance/favorites', {
-      favorites: arr,
-      session: globalState.session,
-      password: globalState.password,
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
+  const {sendFavoritesS} = useRequestsService(globalState);
 
   function changeFavoritesIds(data){
     let newArray = [...svyazkiState.arrayOfFavoritesIds]
@@ -32,7 +19,7 @@ const Svyazki = observer(() => {
     }else{
       newArray.push(data.realId);
     }
-    sendFavoritesIds(newArray);
+    sendFavoritesS(newArray);
     svyazkiState.setFavoritesIds([...newArray]);
   }
 
