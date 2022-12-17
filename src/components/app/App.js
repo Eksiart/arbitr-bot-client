@@ -12,9 +12,12 @@ import Container from '@mui/material/Container';
 import './App.scss';
 
 // const Page404 = lazy(() => import('../pages/404'));
-const MainPage = lazy(() => import('../pages/MainPage'));
-const RatesPage = lazy(() => import('../pages/RatesPage'));
-const OffersPage = lazy(() => import('../pages/OffersPage'));
+// const MainPage = lazy(() => import('../pages/MainPage'));
+// const RatesPage = lazy(() => import('../pages/RatesPage'));
+// const OffersPage = lazy(() => import('../pages/OffersPage'));
+const MainPage = import('../pages/MainPage');
+const RatesPage = import('../pages/RatesPage');
+const OffersPage = import('../pages/OffersPage');
 
 function App() {
     return (
