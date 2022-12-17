@@ -15,9 +15,9 @@ import './App.scss';
 // const MainPage = lazy(() => import('../pages/MainPage'));
 // const RatesPage = lazy(() => import('../pages/RatesPage'));
 // const OffersPage = lazy(() => import('../pages/OffersPage'));
-const MainPage = import('../pages/MainPage');
-const RatesPage = import('../pages/RatesPage');
-const OffersPage = import('../pages/OffersPage');
+import MainPage from '../pages/MainPage';
+import RatesPage from '../pages/RatesPage';
+import OffersPage from '../pages/OffersPage';
 
 function App() {
     return (
