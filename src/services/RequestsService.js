@@ -5,7 +5,8 @@ import { useHttp } from '../hooks/http.hook';
 const useRequestsService = (globalState) => {
 
   const {request} = useHttp();
-  const _apiBase = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
+  // const _apiBase = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
+  const _apiBase = 'http://terran.site/';
 
   const sendFiltersS = async (filters) => {
     const res = await request(

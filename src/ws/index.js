@@ -1,9 +1,10 @@
 // eslint-disable-next-line
 import React from 'react';
-const wsUrl = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_WS_URL : process.env.REACT_APP_PROD_WS_URL;
 let socket = null;
 
 const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) => {
+  // const wsUrl = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_WS_URL : process.env.REACT_APP_PROD_WS_URL;
+  const wsUrl = 'ws://terran.site/ws';
 
   const connectToServer = () => {
     // socket = new WebSocket(localhost);
