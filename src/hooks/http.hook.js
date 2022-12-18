@@ -10,7 +10,7 @@ export const useHttp = () => {
       const response = await fetch(url, {method, body: JSON.stringify(body)});
 
       if(!response.ok){
-        throw new Error(`Could not fetch ${url}, status ${response.status}`);
+        throw new Error(`Could not fetch ${url}, status ${response.data}`);
       }
 
       const data = await response.json();
