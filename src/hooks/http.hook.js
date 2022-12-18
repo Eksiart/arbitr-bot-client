@@ -1,21 +1,21 @@
 // eslint-disable-next-line
 import React from 'react';
 import { useCallback } from 'react';
+import axios from 'axios';
 
 export const useHttp = () => {
 
   const request = useCallback(async (url, method = 'GET', body = null) => {
   
     try{
-      const response = await fetch(url, {method, body: JSON.stringify(body)});
-
-      if(!response.ok){
-        throw new Error(`Could not fetch ${url}, status ${response.data}`);
-      }
-
-      const data = await response.json();
-
-      return data;
+      await axios.post(url, body)
+      .then(function (response) {
+        console.log(response);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     } catch(e){
       throw e;
     }
