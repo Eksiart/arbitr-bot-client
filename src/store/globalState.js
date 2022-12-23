@@ -10,6 +10,10 @@ class GlobalState {
 
   constructor() {
     makeAutoObservable(this)
+    const passwordFromStorage = localStorage.getItem('password');
+    if(passwordFromStorage){
+      this.password = passwordFromStorage;
+    }
   }
 
   setSession = (value) => {
@@ -22,6 +26,7 @@ class GlobalState {
 
   setPassword = (value) => {
     this.password = value;
+    localStorage.setItem('password', JSON.stringify(value));
   }
 
   // setError = (value, msg) => {
