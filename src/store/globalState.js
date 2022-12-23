@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx";
 
 class GlobalState {
   session = `f${(+new Date()).toString(16)}`;
-  password = 'ArdanLubitAliny3459524681XX:][';
+  password = '';
   wsOnline = false;
 
   // error = false;
