@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 
 import './offerCell.scss'
 
-const OfferCell = ({bankData, cryptoData, reverse, buy, type, coin}) => {
+const GarantexCell = ({bankData, cryptoData, reverse, buy, type, coin}) => {
 
   const openInNewTab = (url) => {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
@@ -12,7 +12,7 @@ const OfferCell = ({bankData, cryptoData, reverse, buy, type, coin}) => {
   }
 
   const openUser = (url) => {
-    openInNewTab('https://p2p.binance.com/ru/advertiserDetail?advertiserNo=' + url)
+    openInNewTab('https://garantex.io/p2p/' + url)
   }
 
   const takerOrMaker = type === 'MAKER' ? 'error' : 'success';
@@ -28,27 +28,21 @@ const OfferCell = ({bankData, cryptoData, reverse, buy, type, coin}) => {
       direction={direction}
     >
       <Grid item xs={3}>
+        <div style={{fontWeight: 600}}>GARANTEX</div>
         <div
-          onClick={() => openUser(cryptoData.userNo)}
+          onClick={() => openUser(cryptoData.id)}
           className={"myLink " + className}
         >
-          {cryptoData.nickname}
+          {cryptoData.nickName}
         </div>
       </Grid>
-      <Grid item xs={2}>
-        <div style={{fontSize: 12}}>
-          <div>{cryptoData.orderCount} сделок</div>
-          <div>{parseFloat(cryptoData.percent * 100).toFixed(1)}%</div>
-        </div>
-      </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={3}>
         <div className={takerOrMaker} style={{fontWeight: 600}}>{coin}</div>
       </Grid>
-      <Grid item xs={2}>
+      <Grid item xs={3}>
         <div style={{fontSize: 12}}>
           <div style={{fontSize: 13, fontWeight: 600}}>{bankData.nameRus}</div>
-          <div>{cryptoData.minCount} - {cryptoData.maxCount}</div>
-          <div>{cryptoData.liquidity}</div>
+          <div>{parseInt(cryptoData.min)} - {parseInt(cryptoData.max)}</div>
         </div>
       </Grid>
       <Grid item xs={3}>
@@ -59,4 +53,4 @@ const OfferCell = ({bankData, cryptoData, reverse, buy, type, coin}) => {
   )
 }
 
-export default OfferCell;
+export default GarantexCell;

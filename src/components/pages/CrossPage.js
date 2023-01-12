@@ -4,20 +4,20 @@ import { Helmet } from "react-helmet";
 import ButtonsMenu from '../buttonsMenu/buttonsMenu';
 import Stopwatch from '../stopwatch/Stopwatch';
 import Svyazki from '../svyazkiList/svyazki';
-import Filters from '../filters/filters';
+import Filters from '../filtersCrossSimple/filters';
 
-const MainPage = () => {
+const CrossPage = () => {
   return(
     <>
       <Helmet>
         <meta
           name="description"
-          content="Внутрибиржевой арбитраж"
+          content="Межбиржевой арбитраж"
           />
-        <title>Внутрибиржевой арбитраж</title>
+        <title>Межбиржевой арбитраж</title>
       </Helmet>
 
-      <ButtonsMenu type='binance'/>
+      <ButtonsMenu type='simple'/>
       <Filters/>
 
       <div>
@@ -25,10 +25,10 @@ const MainPage = () => {
       </div>
 
       <Svyazki
-        type='binance'
+        type='simple'
         columnsArr={[
           'Покупаем',
-          'Спот',
+          'Garantex Market',
           'Подаем',
           'Итог',
         ]}
@@ -38,4 +38,4 @@ const MainPage = () => {
   )
 }
 
-export default MainPage;
+export default CrossPage;

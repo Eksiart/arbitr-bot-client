@@ -5,8 +5,9 @@ let socket = null;
 const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) => {
   // const wsUrl = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_WS_URL : process.env.REACT_APP_PROD_WS_URL;
   const wsUrl = 'ws://api.terran.site/ws';
+  // const wsUrl = 'ws://localhost:5000/ws';
 
-  const connectToServer = () => {
+  const connectToServer = (type) => {
     // socket = new WebSocket(localhost);
     socket = new WebSocket(wsUrl);
 
@@ -23,7 +24,7 @@ const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) =
         username: 'test',
         method: 'connection',
         password: globalState.password,
-        type: 'binance',
+        type,
         id: globalState.session,
         filters: filtersState.filtersForWs,
         favorites: svyazkiState.arrayOfFavoritesIds,
@@ -36,6 +37,7 @@ const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) =
       switch (msg.method) {
         case 'send':
           console.log('Получено');
+          svyazkiState.setType(msg.type);
           svyazkiState.setSvayzki(msg.data);
           svyazkiState.setFavorites(msg.favorites);
           stopwatchState.setLastUpdate();

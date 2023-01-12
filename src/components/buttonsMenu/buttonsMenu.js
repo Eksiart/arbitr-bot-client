@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 
 import Button from '@mui/material/Button';
 
@@ -6,6 +7,7 @@ import {observer} from "mobx-react-lite";
 import globalState from '../../store/globalState';
 import svyazkiState from '../../store/svyazkiState';
 import filtersState from '../../store/filtersStateBinance';
+import filtersStateCross from '../../store/filtersStateCross';
 import stopwatchState from '../../store/stopwatchState';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -19,18 +21,45 @@ import { useState } from "react";
 
 import useWsService from '../../ws/index'
 
-const ButtonsMenu = observer(() => {
+const ButtonsMenu = observer(({type}) => {
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if(globalState.wsOnline){
+        initDisconnectByUser()
+      }
+      svyazkiState.setSvayzki([]);
+      svyazkiState.setFavorites([]);
+    }
+     // eslint-disable-next-line
+  }, [])
+
+  let filtersStateForWs;
+  switch (type) {
+    case 'binance':
+      filtersStateForWs = filtersState;
+      break;
+    case 'simple':
+      filtersStateForWs = filtersStateCross;
+      break;
+    // case 'hard':
+    //   filtersStateForWs = 
+    //   break;
+    default:
+      break;
+  }
+
   const {
     connectToServer,
     initDisconnectByUser,
-  } = useWsService(globalState, svyazkiState, filtersState, stopwatchState);
+  } = useWsService(globalState, svyazkiState, filtersStateForWs, stopwatchState);
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   return(
     <Stack direction="row" spacing={2}>
-      <Button disabled={globalState.wsOnline} onClick={connectToServer} variant="contained">Подключиться</Button>
+      <Button disabled={globalState.wsOnline} onClick={() => connectToServer(type)} variant="contained">Подключиться</Button>
       <Button disabled={!globalState.wsOnline} onClick={initDisconnectByUser} variant="contained">Отключиться</Button>
       <TextField
         disabled={globalState.wsOnline}

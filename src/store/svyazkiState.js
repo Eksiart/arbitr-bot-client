@@ -4,6 +4,7 @@ class SvyazkiState {
   arrayOfSvayzok = []
   arrayOfFavoritesIds = []
   arrayOfFavorites = []
+  type
 
   constructor() {
     makeAutoObservable(this)
@@ -11,6 +12,10 @@ class SvyazkiState {
     if(favoritesIdsFromLocalStorage){
       this.arrayOfFavoritesIds = JSON.parse(favoritesIdsFromLocalStorage)
     }
+  }
+
+  setType = (value) => {
+    this.type = value
   }
 
   deleteFavoriteIds = (value) => {
@@ -39,6 +44,12 @@ class SvyazkiState {
   }
   setSvayzki = (data) => {
     this.arrayOfSvayzok = data;
+  }
+
+  clear = () => {
+    this.arrayOfFavorites = []
+    this.arrayOfFavoritesIds = []
+    this.arrayOfSvayzok = []
   }
 }
 

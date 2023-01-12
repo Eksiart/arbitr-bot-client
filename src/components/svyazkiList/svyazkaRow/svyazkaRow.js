@@ -2,7 +2,7 @@ import React from 'react';
 
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
-import OfferCell from '../svyazkaCell/offerCell';
+import BinanceCell from '../svyazkaCell/binanceCell';
 import Stack from '@mui/material/Stack';
 
 const SvyazkaRow = ({index, data, onRowClick}) => {
@@ -18,7 +18,7 @@ const SvyazkaRow = ({index, data, onRowClick}) => {
     >
 
       <TableCell align="center">
-        <OfferCell 
+        <BinanceCell 
           reverse={false} 
           bankData={data.bankFrom} 
           cryptoData={data.crtyptoBuy}
@@ -31,7 +31,7 @@ const SvyazkaRow = ({index, data, onRowClick}) => {
       <TableCell align="center"><SpotCell data={data.spot}/></TableCell>
 
       <TableCell align="center">
-        <OfferCell 
+        <BinanceCell 
           reverse={true} 
           bankData={data.bankTo} 
           cryptoData={data.crtyptoSell}

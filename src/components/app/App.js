@@ -16,6 +16,7 @@ import './App.scss';
 // const RatesPage = lazy(() => import('../pages/RatesPage'));
 // const OffersPage = lazy(() => import('../pages/OffersPage'));
 import MainPage from '../pages/MainPage';
+import CrossPage from '../pages/CrossPage';
 import RatesPage from '../pages/RatesPage';
 import OffersPage from '../pages/OffersPage';
 
@@ -30,6 +31,7 @@ function App() {
                     <Routes>
                         {/* <Route path='/' element={<MainPage/>}/> */}
                         <Route path='/p2p/:market' element={<MainPage/>}/>
+                        <Route path='/cross/direct' element={<CrossPage/>}/>
                         <Route path='/rates' element={<RatesPage/>}/>
                         <Route path='/market' element={<OffersPage/>}/>
                         <Route path='*' element={<Navigate to='/p2p/binance'/>}/>

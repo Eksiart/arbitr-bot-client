@@ -8,7 +8,7 @@ import globalState from '../../store/globalState';
 
 import useRequestsService from '../../services/RequestsService';
 
-const Svyazki = observer(() => {
+const Svyazki = observer(({type, columnsArr}) => {
 
   const {sendFavoritesS} = useRequestsService(globalState);
 
@@ -19,7 +19,7 @@ const Svyazki = observer(() => {
     }else{
       newArray.push(data.realId);
     }
-    sendFavoritesS(newArray);
+    sendFavoritesS(newArray, type);
     svyazkiState.setFavoritesIds([...newArray]);
   }
 
@@ -35,6 +35,9 @@ const Svyazki = observer(() => {
           onRowClick={changeFavoritesIds} 
           height={{height: 300}} 
           keyName={'favorites'}
+          type={type}
+          dataType={svyazkiState.type}
+          columnsArr={columnsArr}
         />
       </div>
 
@@ -44,6 +47,9 @@ const Svyazki = observer(() => {
           data={svyazkiState.arrayOfSvayzok} 
           onRowClick={changeFavoritesIds} 
           keyName={'all'}
+          type={type}
+          dataType={svyazkiState.type}
+          columnsArr={columnsArr}
         />
       </div>
     </>

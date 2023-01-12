@@ -19,24 +19,42 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import SvyazkaRow from './svyazkaRow/svyazkaRow';
 import SvyazkiTableHeader from './header/svyazkiListHeader';
 
+import SvyazkaRowCross from './svyazkaRow/svyazkaRowCross';
+
 import { useTheme } from '@mui/material/styles';
 
 import './svyazkiList.scss'
 
-const SvyazkiList = ({data, onRowClick, height = null, keyName}) => {
+const SvyazkiList = ({dataType, data, onRowClick, height = null, keyName, columnsArr, type}) => {
 
   const [page, setPage] = React.useState(0);
 
   const handleChangePage = (event, value) => {
     setPage(value);
   };
-
+  //TODO
   const renderTableElems = (arrayOfSvayzok, page) => {
-    if(arrayOfSvayzok[0]?.buyType){
+    if(arrayOfSvayzok.length > 0){
       let partOfArray = arrayOfSvayzok.slice(page, page + 10);
-      return partOfArray.map((data, index) => (
-        <SvyazkaRow onRowClick={onRowClick} key={keyName + 'svyazka' + (+index + page * 10)} data={data} index={index + page * 10}/>
-      ))
+      if(type === 'binance'){
+        return partOfArray.map((data, index) => (
+          <SvyazkaRow 
+            onRowClick={onRowClick} 
+            key={keyName + 'svyazka' + (+index + page * 10)} 
+            data={data} 
+            index={index + page * 10}
+          />
+        ))
+      }else{
+        return partOfArray.map((data, index) => (
+          <SvyazkaRowCross 
+            onRowClick={onRowClick} 
+            key={keyName + 'svyazka' + (+index + page * 10)} 
+            data={data} 
+            index={index + page * 10}
+          />
+        ))
+      }
     }
   }
 
@@ -44,9 +62,10 @@ const SvyazkiList = ({data, onRowClick, height = null, keyName}) => {
     <>
       <TableContainer sx={height} component={Paper}>
         <Table size='small' className='svyazkiTable' sx={{ minWidth: 650 }} aria-label="simple table">
-          <SvyazkiTableHeader/>
+          <SvyazkiTableHeader columns={columnsArr}/>
           <TableBody>
-            {renderTableElems(data, page)}
+            {dataType === type ? renderTableElems(data, page) : null}
+            {/* {renderTableElems(data, page)} */}
           </TableBody>
           {height || !data ? null :
             <TableFooter>

@@ -10,7 +10,7 @@ class GlobalState {
 
   constructor() {
     makeAutoObservable(this)
-    const passwordFromStorage = localStorage.getItem('password');
+    const passwordFromStorage = JSON.parse(localStorage.getItem('password'));
     if(passwordFromStorage){
       this.password = passwordFromStorage;
     }
