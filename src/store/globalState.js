@@ -16,8 +16,8 @@ class GlobalState {
     }
   }
 
-  setSession = (value) => {
-    this.session = value
+  setSession = () => {
+    this.session = `f${(+new Date()).toString(16)}`;
   }
   
   setWsOnline = (value) => {

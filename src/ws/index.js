@@ -37,9 +37,9 @@ const useWsService = (globalState, svyazkiState, filtersState, stopwatchState) =
       switch (msg.method) {
         case 'send':
           console.log('Получено');
-          svyazkiState.setType(msg.type);
-          svyazkiState.setSvayzki(msg.data);
-          svyazkiState.setFavorites(msg.favorites);
+          svyazkiState.setAll(msg.type, msg.data, msg.favorites)
+          // svyazkiState.setSvayzki(msg.data);
+          // svyazkiState.setFavorites(msg.favorites);
           stopwatchState.setLastUpdate();
           break;
         

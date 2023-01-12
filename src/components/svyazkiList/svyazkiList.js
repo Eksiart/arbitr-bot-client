@@ -28,7 +28,6 @@ import './svyazkiList.scss'
 const SvyazkiList = ({dataType, data, onRowClick, height = null, keyName, columnsArr, type}) => {
 
   const [page, setPage] = React.useState(0);
-
   const handleChangePage = (event, value) => {
     setPage(value);
   };
@@ -65,7 +64,6 @@ const SvyazkiList = ({dataType, data, onRowClick, height = null, keyName, column
           <SvyazkiTableHeader columns={columnsArr}/>
           <TableBody>
             {dataType === type ? renderTableElems(data, page) : null}
-            {/* {renderTableElems(data, page)} */}
           </TableBody>
           {height || !data ? null :
             <TableFooter>

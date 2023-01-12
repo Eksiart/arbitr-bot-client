@@ -14,10 +14,6 @@ class SvyazkiState {
     }
   }
 
-  setType = (value) => {
-    this.type = value
-  }
-
   deleteFavoriteIds = (value) => {
     this.arrayOfFavoritesIds = this.arrayOfFavoritesIds.filter(num => num !== value)
     localStorage.setItem('favorites', JSON.stringify(this.arrayOfFavoritesIds))
@@ -44,6 +40,11 @@ class SvyazkiState {
   }
   setSvayzki = (data) => {
     this.arrayOfSvayzok = data;
+  }
+  setAll = (type, svyazki, svyazkiFavorites) => {
+    this.type = type;
+    this.arrayOfSvayzok = svyazki;
+    this.arrayOfFavorites = svyazkiFavorites;
   }
 
   clear = () => {

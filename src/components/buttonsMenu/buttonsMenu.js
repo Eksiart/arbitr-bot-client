@@ -4,11 +4,13 @@ import { useEffect } from 'react';
 import Button from '@mui/material/Button';
 
 import {observer} from "mobx-react-lite";
+
 import globalState from '../../store/globalState';
 import svyazkiState from '../../store/svyazkiState';
 import filtersState from '../../store/filtersStateBinance';
 import filtersStateCross from '../../store/filtersStateCross';
 import stopwatchState from '../../store/stopwatchState';
+
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 
@@ -25,12 +27,11 @@ const ButtonsMenu = observer(({type}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    globalState.setSession()
     return () => {
       if(globalState.wsOnline){
         initDisconnectByUser()
       }
-      svyazkiState.setSvayzki([]);
-      svyazkiState.setFavorites([]);
     }
      // eslint-disable-next-line
   }, [])
@@ -49,6 +50,10 @@ const ButtonsMenu = observer(({type}) => {
     default:
       break;
   }
+  
+  const connect = () => {
+    connectToServer(type);
+  }
 
   const {
     connectToServer,
@@ -59,7 +64,7 @@ const ButtonsMenu = observer(({type}) => {
 
   return(
     <Stack direction="row" spacing={2}>
-      <Button disabled={globalState.wsOnline} onClick={() => connectToServer(type)} variant="contained">Подключиться</Button>
+      <Button disabled={globalState.wsOnline} onClick={() => connect()} variant="contained">Подключиться</Button>
       <Button disabled={!globalState.wsOnline} onClick={initDisconnectByUser} variant="contained">Отключиться</Button>
       <TextField
         disabled={globalState.wsOnline}

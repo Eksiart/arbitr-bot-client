@@ -93,7 +93,7 @@ const FiltersMenu = observer((props) => {
                 // disabled={!isActive}
                 // error={currentFilters.budget < 1000 || currentFilters.budget === ''}
                 name='budget'
-                // value={currentFilters.budget} 
+                value={filtersStateCross.filters.budget} 
                 onChange={onBudgetChange} 
                 type="number" 
                 inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }} 
